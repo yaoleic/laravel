@@ -27,21 +27,31 @@ class PostController extends Controller
             'content'=>'required|min:10'
         ]);
 
-
+        //dd(request()->all());
        $post =  Post::create(request(['title','content']));
        return redirect('/posts');
     }
     //编辑
-    public function edit(){
-        return view('post/edit');
+    public function edit(Post $post){
+        return view('post/edit',compact('post'));
     }
     //编辑逻辑
-    public function update(){
+    public function update(Post $post){
+        $this->validate(request(),[
+            'title'=>'required|max:100|min:5',
+            'content'=>'required|min:10'
+        ]);
+        $post->title =request('title');
+        $post->content =request('content');
+        $post->save();
+        return redirect("/posts/{$post->id}");
+
 
     }
     //删除
-    public function delete(){
-
+    public function delete(Post $post){
+        //用户权限
+        $post->delete();
     }
     //图片上传
     public function imageUpload(){
