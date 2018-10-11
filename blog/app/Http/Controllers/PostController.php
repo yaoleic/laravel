@@ -22,7 +22,14 @@ class PostController extends Controller
     }
     //创建
     public function store(){
+        $this->validate(request(),[
+            'title'=>'required|max:100|min:5',
+            'content'=>'required|min:10'
+        ]);
 
+
+       $post =  Post::create(request(['title','content']));
+       return redirect('/posts');
     }
     //编辑
     public function edit(){
@@ -36,4 +43,9 @@ class PostController extends Controller
     public function delete(){
 
     }
+    //图片上传
+    public function imageUpload(){
+        dd(request()->all());
+    }
+
 }
