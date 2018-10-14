@@ -54,8 +54,16 @@ class PostController extends Controller
         $post->delete();
     }
     //图片上传
-    public function imageUpload(){
-        dd(request()->all());
+    public function imageUpload(Request $request){
+
+        $path = $request->file('wangEditorH5File')->storePublicly(md5(time()));
+
+        $data =  asset('storage/'.$path);
+        echo json_encode(array(
+            "error" => 0,
+            "data" => $data,
+        ));
+
     }
 
 }
